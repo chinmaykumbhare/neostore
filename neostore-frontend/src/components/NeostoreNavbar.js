@@ -34,6 +34,7 @@ export default function NeostoreNavbar() {
         async function verifyToken() {
             const _token = localStorage.getItem("token");
             const data = await (await axios.post(verify_url, { token: _token })).data;
+            // console.log(data);
             // const ip = await (await axios.get("https://api.ipify.org/?format=json")).data;
             // console.log(ip);
             setToken(data);
@@ -81,7 +82,7 @@ export default function NeostoreNavbar() {
                         onClick={() => {
                             localStorage.setItem("cart", JSON.stringify(globalCart));
                             handleShow()
-                        }} />{globalCart.length}
+                        }} />{ globalCart === null ? 0 : globalCart.length}
                     <Dropdown>
                         <Dropdown.Toggle>
                             <FontAwesomeIcon icon={"user-circle"} className="ms-1 me-1" />
@@ -134,7 +135,7 @@ export default function NeostoreNavbar() {
                                         <Dropdown.Menu>
                                             {quantityArr.map((quantity) => {
                                                 return (
-                                                    <Dropdown.Item key={index}
+                                                    <Dropdown.Item key={parseInt(Math.random() * 1000)}
                                                         onClick={() => {
                                                             // setTotal(total + item.price * quantity);
                                                             document.getElementById(index).textContent = new Intl.NumberFormat('en-IN', {

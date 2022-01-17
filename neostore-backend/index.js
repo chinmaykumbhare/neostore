@@ -120,6 +120,25 @@ server.post("/login", async (request, response) => {
 
 })
 
+server.post("/socialuser", async (request, response) => {
+    const userData = await UserSchema.find({ email: request.body.email });
+    if (userData.length > 0) {
+        const token = await jwt.sign({
+            _id: userData[0]._id,
+            username: userData[0].username,
+            seller: userData[0].seller,
+            address: userData[0].address
+        }, process.env.PASSWORD_HASHED_KEY, { expiresIn: '3d' });
+        response.send(token);
+    } else {
+        const status = await UserSchema.insertMany({
+            username: request.body.email,
+            email: request.body.email
+        });
+        response.send(status);
+    }
+})
+
 server.post("/verify", async (request, response) => {
     const token = request.body.token;
     const decodedData = jwt.verify(token, process.env.PASSWORD_HASHED_KEY);
@@ -133,7 +152,7 @@ server.post("/updatepic", upload.single("file"), async (request, response) => {
         body: { }
     } = request;
 
-    const fileName = request.body.id +".jpg";
+    const fileName = request.body.id + ".jpg";
 
     if (fileName !== undefined) {
         fs.writeFile(__dirname + "/images/users/" + fileName, file.buffer, (err) => {
@@ -148,6 +167,14 @@ server.post("/updatepic", upload.single("file"), async (request, response) => {
     }
 
 });
+
+server.post("/getaddress", async (request, response) => {
+    console.log(request.body);
+    const data = await UserSchema.find({username: request.body.username});
+    // console.log(data);
+    response.send(data[0].address);
+    // response.send(data[0].address);
+})
 
 /**
  * Add category, products => barebone url
@@ -260,7 +287,7 @@ server.post("/cart", async (request, response) => {
  */
 
 server.post("/order", async (request, response) => {
-    const status = await UserSchema.updateOne({ User: request.body.userid }, {
+    const status = await UserSchema.updateOne({ _id: request.body.userid }, {
         $push: { orders: { order: request.body.order } }
     });
     response.send(status);

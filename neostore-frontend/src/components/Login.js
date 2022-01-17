@@ -7,7 +7,8 @@ import { faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
-import {login_url} from '../API/functionCalls';
+import { login_url } from '../API/functionCalls';
+import { GoogleLogin } from 'react-google-login';
 
 library.add(faLock, faUser);
 
@@ -15,6 +16,7 @@ export default function Login() {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    // const [profile, setProfile] = useState([]);
 
     const navigate = useNavigate();
 
@@ -31,6 +33,24 @@ export default function Login() {
                 navigate("/products");
             }, 200);
         }
+    }
+
+    async function postSocialData(profile) {
+        console.log(profile);
+        const user = {username: profile.email, email: profile.email};
+        const data = await (await axios.post("http://localhost:8090/socialuser", user)).data;
+        console.log(data);
+        localStorage.setItem("token", data);
+        setTimeout(() => {
+            navigate("/products");
+        }, 200);
+    }
+
+    const responseGoogle = (response) => {
+        // console.log(response);
+        // console.log(response.profileObj);
+        // setProfile(response.profileObj);
+        postSocialData(response.profileObj);
     }
 
     return (
@@ -57,6 +77,17 @@ export default function Login() {
                     <Link to="/forgotpassword" className='mx-3'>Forgot Password?</Link>
                 </Form.Group>
             </Form>
+            <Row>
+                <Col>
+                    <GoogleLogin
+                        clientId="411475181756-ninurpsk7jq5dg6stkfrli2d368l2b0a.apps.googleusercontent.com"
+                        buttonText="Login"
+                        onSuccess={responseGoogle}
+                        onFailure={responseGoogle}
+                        cookiePolicy={'single_host_origin'}
+                    />
+                </Col>
+            </Row>
         </div>
     )
 }

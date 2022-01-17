@@ -10,15 +10,14 @@ const userSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
     },
     seller: {
         type: Boolean,
         default: false
     },
     address: {
-        type: String,
-        required: true
+        type: Array,
+        default: []
     },
     orders: {
         type: Array

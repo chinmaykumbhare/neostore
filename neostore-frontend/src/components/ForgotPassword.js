@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Form, Row, Col, Button } from 'react-bootstrap'
-import { Outlet } from 'react-router';
 import {user_url, reset_url, otp_url} from '../API/functionCalls';
+import sweet from "sweetalert2";
 
 export default function ForgotPassword() {
 
@@ -22,6 +22,11 @@ export default function ForgotPassword() {
     async function resetPassword() {
         const data = await (await axios.post(reset_url, {username: username, password: password})).data;
         console.log(data);
+        sweet.fire({
+            title: "Your password has been reset successfully! ",
+            icon: "success",
+            timer: 3000
+        })
     }
 
     useEffect(() => {

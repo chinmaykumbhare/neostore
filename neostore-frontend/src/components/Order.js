@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Col, Row } from 'react-bootstrap';
+import { Button, Col, Dropdown, Row } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
@@ -7,13 +7,21 @@ import NeostoreNavbar from './NeostoreNavbar';
 import Total from './Total';
 import { setCart } from '../features/products/cartSlice';
 import sweet from "sweetalert2";
-import {order_url, verify_url} from '../API/functionCalls';
+import { order_url, verify_url } from '../API/functionCalls';
 
 export default function Order(props) {
 
     const [token, setToken] = useState({});
+    const [address, setAddress] = useState([]);
+    const [deliverHere, setDeliverHere] = useState("");
 
     const dispatch = useDispatch();
+
+    async function getAddress(username) {
+        const data = await (await axios.post("http://localhost:8090/getaddress", { username: username })).data;
+        console.log(data);
+        setAddress(data);
+    }
 
     useEffect(() => {
 
@@ -21,6 +29,7 @@ export default function Order(props) {
             const _token = localStorage.getItem("token");
             const data = await (await axios.post(verify_url, { token: _token })).data;
             setToken(data);
+            getAddress(data.username);
         }
 
         verifyToken();
@@ -67,9 +76,28 @@ export default function Order(props) {
                 <hr />
                 <Total />
                 <hr />
-                <h3>Address:</h3>
-                <span>{token.address}</span>
-                <br />
+                <Row>
+                    <Col>
+                        <h3>Address:</h3>
+                    </Col>
+                    <Col>
+                        <Dropdown>
+                            <Dropdown.Toggle variant='dark' >Address</Dropdown.Toggle>
+                            <Dropdown.Menu variant='dark' >
+                                {address.map((address, index) => {
+                                    return (
+                                        <Dropdown.Item key={index} onClick={() => {
+                                            setDeliverHere(address);
+                                        }}>{address}</Dropdown.Item>
+                                    )
+                                })}
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </Col>
+                </Row>
+
+                <h4>{deliverHere}</h4>
+
                 <Button onClick={checkoutHandler}>Checkout</Button>
             </div>
         </div>
