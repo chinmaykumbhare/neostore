@@ -1,0 +1,114 @@
+.App {
+  text-align: center;
+}
+
+body {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center;
+  justify-content: center; */
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+input {
+  font-size: 30px;
+  margin: 10px;
+}
+
+#category-checkbox {
+  font-size: 20px;
+  margin-top: 9px;
+}
+
+.App > button {
+  font-size: 30px;
+}
+
+.App-link {
+  color: #61dafb;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.App-link:hover {
+  color: #4bbbda;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.cart-modal .modal-content {
+  background-color: #282c34;
+}
+
+.cart-icon {
+  margin: 5px;
+}
+
+.cart-icon:hover {
+  border: 1px solid white;
+  height: 40px;
+  width: 40px;
+  padding: 5px;
+}
+
+.logout-icon:hover {
+  border: 1px solid white;
+  height: 40px;
+  width: 40px;
+  padding: 5px;
+}
+
+img {
+  object-fit: contain;
+}
+
+.footer {
+  background: black;
+  color: white;
+  /* color:rgb(23, 82, 245) */
+
+}
+
+.footer .links ul {
+  list-style-type: none;
+}
+
+.footer .links li a {
+  color: white;
+  transition: color 0.2s;
+}
+
+.footer .links li a:hover {
+  text-decoration: none;
+  color: #4180CB;
+}
+
+.footer .about-company i {
+  font-size: 25px;
+}
+
+.footer .about-company a {
+  color: white;
+  transition: color 0.2s;
+}
+
+.footer .about-company a:hover {
+  color: #4180CB;
+}
+
+.footer .location i {
+  font-size: 18px;
+}
+
+.footer .copyright p {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.verticalLine {
+  border-left: 6px solid green;
+  width: "3px";
+  height: 500px;
+}
