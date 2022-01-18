@@ -27,8 +27,6 @@ export default function Products() {
 
     const navigate = useNavigate();
 
-    // console.log(globalProducts);
-
     useEffect(() => {
 
         async function getData() {
@@ -53,11 +51,8 @@ export default function Products() {
     }, []);
 
     useEffect(() => {
-        // console.log(filterProducts);
         if (filterProducts.length === 0) setAll(true);
     }, [filterProducts]);
-
-    // console.log(globalProducts);
 
     function handleCheckbox(event) {
         if (event.target.checked === true) {

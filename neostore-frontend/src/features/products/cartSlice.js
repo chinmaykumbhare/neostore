@@ -14,14 +14,11 @@ const cartSlice = createSlice({
         remove(state, action) {
             state.cart = state.cart.filter(item => item.product.name !== action.payload.product.name);
         },
-        setQuantity(state, action) {
-            console.log(action.payload);
-        },
         setCart(state, action) {
             state.cart = action.payload;
         }
     }
 });
 
-export const {cart, remove, setQuantity, setCart} = cartSlice.actions;
+export const {cart, remove, setCart} = cartSlice.actions;
 export default cartSlice.reducer;

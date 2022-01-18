@@ -23,9 +23,7 @@ export default function Register() {
 
     async function registerHandler() {
         const obj = { username: username, email: useremail, password: password, seller: seller, address: address };
-        console.log(obj);
         const data = await (await axios.post(adduser_url, obj)).data;
-        console.log(data);
         if (data === "error") {
             document.getElementById("error").textContent = "Uh-Oh! Please Check your username and/or password and try again!";
         } else {

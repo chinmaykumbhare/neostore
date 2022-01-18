@@ -15,13 +15,11 @@ export default function ForgotPassword() {
 
     async function otpHandler() {
         const data = await (await axios.post(user_url, { username: username })).data;
-        console.log(data);
         setUserData(data);
     }
 
     async function resetPassword() {
         const data = await (await axios.post(reset_url, {username: username, password: password})).data;
-        console.log(data);
         sweet.fire({
             title: "Your password has been reset successfully! ",
             icon: "success",
@@ -32,7 +30,6 @@ export default function ForgotPassword() {
     useEffect(() => {
         async function getOTP() {
             const data = await (await axios.post(otp_url, {username: username})).data;
-            console.log(data);
             setOTP(data);
         }
         if (userdata.length > 0) {

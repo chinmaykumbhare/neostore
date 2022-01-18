@@ -25,7 +25,6 @@ export default function UpdatePic() {
         data.append("file", file);
         data.append("id", token._id);
         const status = await axios.post("http://localhost:8090/updatepic", data);
-        console.log(status);
     }
 
     return (
@@ -33,7 +32,6 @@ export default function UpdatePic() {
             <h3>Please upload your photo</h3>
             <input type="file" id="file" accept='.jpg' onChange={(event) => {
                 const file = event.target.files[0];
-                console.log(file);
                 setFile(file);
             }} />
             <Button onClick={() => {

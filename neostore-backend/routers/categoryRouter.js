@@ -7,7 +7,6 @@ router.get("/all", async (request, response) => {
 })
 
 router.get("/", async (request, response) => {
-    console.log(request.query);
     const page = parseInt(request.query.page);
     const limit = parseInt(request.query.limit);
 

@@ -50,11 +50,8 @@ server.post("/user", async (request, response) => {
 
 server.post("/otp", async (request, response) => {
     const otp = Math.floor(Math.random() * 10000);
-    // console.log(otp);
     const sender = await UserSchema.find({ username: request.body.username });
-    // console.log(sender);
     const senderEmail = sender[0].email;
-    // console.log(senderEmail);
     if (senderEmail !== undefined) {
         let mailBody = {
             from: "NeoSTORE Devs",
@@ -71,7 +68,6 @@ server.post("/otp", async (request, response) => {
 })
 
 server.post("/resetpassword", async (request, response) => {
-    // console.log(request.body);
     bcrypt.hash(request.body.password, 10, async (err, hash) => {
         const status = await UserSchema.updateOne({
             username: request.body.username
@@ -93,13 +89,10 @@ server.post("/adduser", async (request, response) => {
 })
 
 server.post("/login", async (request, response) => {
-    // console.log(request.body);
     const userData = await UserSchema.find({ username: request.body.username });
-    // console.log(userData);
     if (userData.length > 0) {
         bcrypt.compare(request.body.password, userData[0].password, async (err, result) => {
             if (err) throw new Error(err);
-            // console.log(result);
             if (result) {
                 const token = await jwt.sign({
                     _id: userData[0]._id,
@@ -169,11 +162,8 @@ server.post("/updatepic", upload.single("file"), async (request, response) => {
 });
 
 server.post("/getaddress", async (request, response) => {
-    console.log(request.body);
     const data = await UserSchema.find({username: request.body.username});
-    // console.log(data);
     response.send(data[0].address);
-    // response.send(data[0].address);
 })
 
 /**
@@ -219,7 +209,6 @@ server.get("/products", async (request, response) => {
 
 server.post("/product", async (request, response) => {
     const id = request.body.id;
-    // console.log(id);
     if (id !== undefined) {
         const product = await productModel.find({ _id: id }).populate({ path: "Category", model: "Category" });
         response.send(product);
@@ -251,7 +240,6 @@ server.post("/cart", async (request, response) => {
 
     if (request.body.userip) {
         const isPresent = await CartSchema.find({ ip: request.body.userip });
-        // console.log(isPresent.length);
         let status = [];
         if (isPresent.length) {
             status = await CartSchema.updateOne({
@@ -266,7 +254,6 @@ server.post("/cart", async (request, response) => {
         response.send(status);
     } else {
         const isPresent = await CartSchema.find({ User: request.body.userid });
-        // console.log(isPresent.length);
         let status = [];
         if (isPresent.length) {
             status = await CartSchema.updateOne({
@@ -295,7 +282,6 @@ server.post("/order", async (request, response) => {
 
 server.post("/orders", async (request, response) => {
     if (request.body.userid !== undefined) {
-        // console.log(request.body.userid);
         const orderData = await UserSchema.find({ _id: request.body.userid });
         response.send(orderData[0].orders);
     } else {

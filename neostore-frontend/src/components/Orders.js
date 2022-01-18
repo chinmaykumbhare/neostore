@@ -30,14 +30,10 @@ export default function Orders(props) {
     }, [userData]);
 
     async function invoiceHandler(orderDetails) {
-        console.log(orderDetails);
         const data = await (await axios.post("http://localhost:8090/pdf?order=" + JSON.stringify(orderDetails))).data;
         window.open("http://localhost:8090/invoice.pdf");
 
     }
-
-    // console.log(orders);
-    // console.log(userData);
 
     return (
         <div style={{minHeight: "100vh"}}>
@@ -46,7 +42,6 @@ export default function Orders(props) {
                 <h3>Orders:</h3>
                 <hr />
                 {orders.length > 0 && orders.map((item, index) => {
-                    // console.log(item.order);
                     return (
                         <div key={index}>
                             <span>{index + 1}</span>
@@ -61,7 +56,6 @@ export default function Orders(props) {
                                 <tbody>
                                     {
                                         item.order.map((ord) => {
-                                            // console.log(ord.product.name);
                                             return (
                                                 <tr key={Math.floor(Math.random() * 1000)}>
                                                     <td>{ord.product.name}</td>

@@ -27,14 +27,12 @@ export default function NeostoreNavbar() {
     const dispatch = useDispatch();
 
     const globalCart = useSelector(state => state.cart.cart);
-    // console.log(globalCart);
 
     useEffect(() => {
 
         async function verifyToken() {
             const _token = localStorage.getItem("token");
             const data = await (await axios.post(verify_url, { token: _token })).data;
-            // console.log(data);
             // const ip = await (await axios.get("https://api.ipify.org/?format=json")).data;
             // console.log(ip);
             setToken(data);
@@ -56,9 +54,13 @@ export default function NeostoreNavbar() {
                 cart_copy[loop] = globalCart[loop];
             }
         }
-        console.log(cart_copy);
         dispatch(setCart(cart_copy));
     }
+
+    /**
+     * @param {onbeforeunload} event 
+     * legacy trigger -> save cart
+     */
 
     window.onbeforeunload = (event) => {
         const e = event || window.event;
@@ -117,7 +119,6 @@ export default function NeostoreNavbar() {
                                         onClick={() => {
                                             const add_id = "a" + index;
                                             const remove_id = "r" + index;
-                                            console.log(item);
                                             setTotal(total - (item.product.price * item.quantity));
                                             dispatch(remove(item));
                                             document.getElementById(add_id).disabled = false;

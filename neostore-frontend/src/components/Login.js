@@ -16,7 +16,6 @@ export default function Login() {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    // const [profile, setProfile] = useState([]);
 
     const navigate = useNavigate();
 
@@ -36,10 +35,8 @@ export default function Login() {
     }
 
     async function postSocialData(profile) {
-        console.log(profile);
         const user = {username: profile.email, email: profile.email};
         const data = await (await axios.post("http://localhost:8090/socialuser", user)).data;
-        console.log(data);
         localStorage.setItem("token", data);
         setTimeout(() => {
             navigate("/products");
@@ -47,9 +44,6 @@ export default function Login() {
     }
 
     const responseGoogle = (response) => {
-        // console.log(response);
-        // console.log(response.profileObj);
-        // setProfile(response.profileObj);
         postSocialData(response.profileObj);
     }
 

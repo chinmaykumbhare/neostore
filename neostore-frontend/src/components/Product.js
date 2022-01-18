@@ -10,15 +10,10 @@ export default function Product() {
     const location = useLocation();
     const queryString = location.search;
 
-    const [id, setID] = useState(0);
     const [product, setProduct] = useState([]);
-
-    // console.log(queryString);
 
     useEffect(() => {
         const tempId = queryString.split("?")[1].split("=")[1];
-        console.log(tempId);
-        setID(tempId);
 
         async function getProductData() {
             const data = await (await axios.post(product_url, { id: tempId })).data;
@@ -28,8 +23,6 @@ export default function Product() {
         getProductData();
 
     }, []);
-
-    console.log(product);
 
     return (
         <div>

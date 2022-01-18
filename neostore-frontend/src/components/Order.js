@@ -19,7 +19,6 @@ export default function Order(props) {
 
     async function getAddress(username) {
         const data = await (await axios.post("http://localhost:8090/getaddress", { username: username })).data;
-        console.log(data);
         setAddress(data);
     }
 
@@ -41,7 +40,6 @@ export default function Order(props) {
     async function checkoutHandler() {
         const updateCart = [];
         const status = await (await axios.post(order_url, { userid: token._id, order: globalCart })).data;
-        console.log(status);
         dispatch(setCart(updateCart));
         localStorage.removeItem("cart");
         sweet.fire({
