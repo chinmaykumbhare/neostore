@@ -11,7 +11,8 @@ const product_url = "http://localhost:8090/product";
 const products_url = "http://localhost:8090/products/";
 const categories_url = "http://localhost:8090/categories";
 const adduser_url = "http://localhost:8090/adduser";
+const address_url = "http://localhost:8090/getaddress"
 
 
 module.exports = {base_url, user_url, reset_url, otp_url, login_url, verify_url, users_url
-, order_url, orders_url, product_url, products_url, categories_url, adduser_url};
+, order_url, orders_url, product_url, products_url, categories_url, adduser_url, address_url};

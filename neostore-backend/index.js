@@ -166,6 +166,11 @@ server.post("/getaddress", async (request, response) => {
     response.send(data[0].address);
 })
 
+server.post("/addaddress", async (request, response) => {
+    const status = await UserSchema.updateOne({_id: request.body.id}, {address: request.body.address});
+    response.send(status);
+})
+
 /**
  * Add category, products => barebone url
  */

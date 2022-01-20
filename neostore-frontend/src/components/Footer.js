@@ -64,13 +64,12 @@ function Footer() {
                                 <p className='text-danger'>{errors}</p>
                             </div>
                             <Button variant="light" onClick={subscribe}>Subscribe</Button>
-
                         </div>
 
                     </div>
-                    <div className="row mt-5">
-                        <div className="col copyright">
-                            <p className="pt-3"><small className="text-white-50">© chinmaykumbhare</small></p>
+                    <div className="mt-5">
+                        <div className="copyright">
+                            <p className="pt-3 px-1 text-end"><small className="text-white">© chinmaykumbhare</small></p>
                         </div>
                     </div>
                 </div>

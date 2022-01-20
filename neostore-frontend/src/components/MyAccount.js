@@ -3,7 +3,7 @@ import NeostoreNavbar from './NeostoreNavbar'
 import { Row, Col, Form } from 'react-bootstrap';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {verify_url, users_url} from '../API/functionCalls';
+import { verify_url, users_url } from '../API/functionCalls';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faPenSquare } from "@fortawesome/free-solid-svg-icons";
@@ -43,9 +43,13 @@ export default function MyAccount() {
                         }}>Orders</Form.Label>
                         <br />
                         <Link to="/forgotpassword" className='mx-3 my-3 App-link'>Change Password</Link>
+                        <br />
+                        <Form.Label className='mx-3 my-3 App-link' onClick={() => {
+                            navigate("/myaccount/addresses", { state: { viaMyAccount: true } });
+                        }}>Addresses</Form.Label>
                     </Col>
                     <Col lg={6} className='border border-white mx-1' style={{
-                        height: "720px", overflowY : "scroll"
+                        height: "720px", overflowY: "scroll"
                     }}>
                         <Outlet />
                     </Col>

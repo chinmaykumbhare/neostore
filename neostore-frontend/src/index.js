@@ -17,6 +17,7 @@ import MyAccount from './components/MyAccount';
 import Product from './components/Product';
 import Footer from './components/Footer';
 import UpdatePic from './components/UpdatePic';
+import Addresses from './components/Addresses';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -34,6 +35,7 @@ ReactDOM.render(
           <Route path="/orders" element={<Orders />} />
           <Route path="/myaccount" element={<MyAccount />} >
             <Route path="orders" element={<Orders />} />
+            <Route path="addresses" element={<Addresses />} />
           </Route>
           <Route path="/product" element={<Product />} />
           <Route path="/updatepic" element={<UpdatePic/>} />

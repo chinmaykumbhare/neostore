@@ -19,6 +19,7 @@ export default function Order(props) {
 
     async function getAddress(username) {
         const data = await (await axios.post("http://localhost:8090/getaddress", { username: username })).data;
+        console.log(data);
         setAddress(data);
     }
 
