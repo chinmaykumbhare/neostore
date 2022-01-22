@@ -9,20 +9,18 @@ import NeostoreNavbar from './NeostoreNavbar';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import {useNavigate} from 'react-router-dom';
-import {products_url, categories_url} from '../API/functionCalls';
+import { useNavigate } from 'react-router-dom';
+import { products_url, categories_url } from '../API/functionCalls';
 
 library.add(faShoppingCart);
 
 export default function Products() {
 
-    const [token, setToken] = useState({});
     const [filterProducts, setFilterProducts] = useState([]);
     const [all, setAll] = useState(true);
 
     const globalProducts = useSelector(state => state.posts.products);
     const globalCategories = useSelector(state => state.categories.categories);
-    const globalCart = useSelector(state => state.cart.cart);
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
@@ -117,7 +115,9 @@ export default function Products() {
                         return (
                             <Col key={index} xs={12} sm={12} md={6} lg={4}>
                                 <Card bg="dark" variant="dark" className="my-3" >
-                                    <Card.Header>{product.name}<Button style={{ float: "right" }} >{">"}</Button></Card.Header>
+                                    <Card.Header>{product.name}<Button style={{ float: "right" }} onClick={() => {
+                                        navigate("/product?id=" + product._id);
+                                    }} >{">"}</Button></Card.Header>
                                     <Card.Body>
                                         <Card.Img src={products_url + product.image}
                                             style={{ height: "250px", width: "320px", objectFit: "cover" }} ></Card.Img>
@@ -138,7 +138,7 @@ export default function Products() {
                             <Col key={index} xs={12} sm={12} md={6} lg={4}>
                                 <Card bg="dark" variant="dark" className="my-3" >
                                     <Card.Header>{product.name}<Button style={{ float: "right" }} onClick={() => {
-                                        navigate("/product?id=" +product._id);
+                                        navigate("/product?id=" + product._id);
                                     }} >{">"}</Button></Card.Header>
                                     <Card.Body>
                                         <Card.Img src={products_url + product.image}
