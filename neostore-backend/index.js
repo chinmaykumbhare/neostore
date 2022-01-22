@@ -163,7 +163,9 @@ server.post("/updatepic", upload.single("file"), async (request, response) => {
 
 server.post("/getaddress", async (request, response) => {
     const data = await UserSchema.find({username: request.body.username});
-    response.send(data[0].address);
+    if(data.length) {
+        response.send(data[0].address);
+    } else response.send([]);
 })
 
 server.post("/addaddress", async (request, response) => {

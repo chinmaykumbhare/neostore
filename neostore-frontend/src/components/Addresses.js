@@ -3,6 +3,7 @@ import { useLocation } from 'react-router';
 import axios from 'axios';
 import { address_url, verify_url } from '../API/functionCalls';
 import { Button, Form } from 'react-bootstrap';
+import { getAddressDB, updateAddressDB, verifyTokenDB } from '../API/APICalls';
 
 export default function Addresses() {
 
@@ -14,28 +15,20 @@ export default function Addresses() {
     const location = useLocation();
 
     async function getAddress(username) {
-        const data = await (await axios.post(address_url, { username: username })).data;
-        console.log(data);
-        console.log(data.length);
+        const data = await getAddressDB(username);
         setAddress(data);
     }
 
     useEffect(() => {
 
         async function verifyToken() {
-            const _token = localStorage.getItem("token");
-            const data = await (await axios.post(verify_url, { token: _token })).data;
+            const data = await verifyTokenDB();
             setToken(data);
             getAddress(data.username);
         }
 
         verifyToken();
     }, []);
-
-    async function updateAddressDB(address_array) {
-        const data = await (await axios.post("http://localhost:8090/addaddress", {id: token._id, address: address_array})).data;
-        console.log(data);
-    }
 
     return <div>
         <h3>Addresses</h3>
@@ -64,7 +57,7 @@ export default function Addresses() {
                     temp_address_array.push(addAddress);
                     console.log(temp_address_array);
                     setAddress(temp_address_array);
-                    updateAddressDB(temp_address_array);
+                    updateAddressDB(token, temp_address_array);
                 }}>Submit</Button>
             </>
         )}

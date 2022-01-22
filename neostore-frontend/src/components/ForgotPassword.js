@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Form, Row, Col, Button } from 'react-bootstrap'
 import {user_url, reset_url, otp_url} from '../API/functionCalls';
 import sweet from "sweetalert2";
+import { otpAPI, resetPasswordAPI } from '../API/APICalls';
 
 export default function ForgotPassword() {
 
@@ -19,7 +20,7 @@ export default function ForgotPassword() {
     }
 
     async function resetPassword() {
-        const data = await (await axios.post(reset_url, {username: username, password: password})).data;
+        const data = await resetPasswordAPI(username, password);
         sweet.fire({
             title: "Your password has been reset successfully! ",
             icon: "success",
@@ -29,7 +30,7 @@ export default function ForgotPassword() {
 
     useEffect(() => {
         async function getOTP() {
-            const data = await (await axios.post(otp_url, {username: username})).data;
+            const data = await otpAPI(username);
             setOTP(data);
         }
         if (userdata.length > 0) {

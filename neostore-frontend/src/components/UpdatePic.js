@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap';
-import axios from 'axios';
-import { verify_url } from "../API/functionCalls";
 import sweet from 'sweetalert2';
+import { updatePicAPI, verifyTokenDB } from '../API/APICalls';
 
 export default function UpdatePic() {
 
@@ -12,11 +11,9 @@ export default function UpdatePic() {
     useEffect(() => {
 
         async function verifyToken() {
-            const _token = localStorage.getItem("token");
-            const data = await (await axios.post(verify_url, { token: _token })).data;
+            const data = await verifyTokenDB();
             setToken(data);
         }
-
         verifyToken();
     }, []);
 
@@ -24,7 +21,7 @@ export default function UpdatePic() {
         const data = new FormData();
         data.append("file", file);
         data.append("id", token._id);
-        const status = await axios.post("http://localhost:8090/updatepic", data);
+        const status = await updatePicAPI(data);
     }
 
     return (

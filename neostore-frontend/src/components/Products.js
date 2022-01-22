@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Card, Row, Col, Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +9,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
-import { products_url, categories_url } from '../API/functionCalls';
+import { products_url } from '../API/functionCalls';
+import { getCategoriesDataAPI, getProductsDataAPI } from '../API/APICalls';
 
 library.add(faShoppingCart);
 
@@ -28,10 +28,10 @@ export default function Products() {
     useEffect(() => {
 
         async function getData() {
-            const productData = await (await axios.get(products_url)).data;
+            const productData = await getProductsDataAPI();
             dispatch(data(productData));
 
-            const cat_data = await (await axios.get(categories_url)).data;
+            const cat_data = await getCategoriesDataAPI();
             dispatch(category(cat_data));
         }
 

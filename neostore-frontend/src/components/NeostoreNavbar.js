@@ -5,10 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faShoppingCart, faUserCircle, faSignOutAlt, faWindowClose } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import { useNavigate } from 'react-router';
-import { cart, remove, setCart, setQuantity } from '../features/products/cartSlice';
-import {verify_url} from '../API/functionCalls';
+import { remove, setCart } from '../features/products/cartSlice';
+import { verifyTokenDB } from '../API/APICalls';
 
 library.add(faShoppingCart, faUserCircle, faSignOutAlt, faWindowClose);
 
@@ -31,8 +30,7 @@ export default function NeostoreNavbar() {
     useEffect(() => {
 
         async function verifyToken() {
-            const _token = localStorage.getItem("token");
-            const data = await (await axios.post(verify_url, { token: _token })).data;
+            const data = await verifyTokenDB();
             // const ip = await (await axios.get("https://api.ipify.org/?format=json")).data;
             // console.log(ip);
             setToken(data);
@@ -66,10 +64,10 @@ export default function NeostoreNavbar() {
         const e = event || window.event;
         // Cancel the event
         if (e) {
-            localStorage.setItem("cart", JSON.stringify(globalCart));
+            localStorage.setItem("cart", JSON.stringify((globalCart === null) ? [] : globalCart));
             // e.returnValue = ''; // Legacy method for cross browser support
         } else {
-            localStorage.setItem("cart", JSON.stringify(globalCart));
+            localStorage.setItem("cart", JSON.stringify((globalCart === null) ? [] : globalCart));
             // e.preventDefault();
         }
         // return ''; // Legacy method for cross browser support
@@ -84,7 +82,7 @@ export default function NeostoreNavbar() {
                         onClick={() => {
                             localStorage.setItem("cart", JSON.stringify(globalCart));
                             handleShow()
-                        }} />{ globalCart === null ? 0 : globalCart.length}
+                        }} />{globalCart === null ? 0 : globalCart.length}
                     <Dropdown>
                         <Dropdown.Toggle>
                             <FontAwesomeIcon icon={"user-circle"} className="ms-1 me-1" />
@@ -128,7 +126,7 @@ export default function NeostoreNavbar() {
                                 <span>{item.product.name}</span><span id={index} style={{ float: "right" }}>{new Intl.NumberFormat('en-IN', {
                                     style: "currency",
                                     currency: "INR"
-                                }).format(item.product.price * item.quantity)}</span>        
+                                }).format(item.product.price * item.quantity)}</span>
 
                                 <Dropdown className="mx-3">
                                     <Dropdown.Toggle>
@@ -160,9 +158,11 @@ export default function NeostoreNavbar() {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="success" onClick={handleOrder}>
-                        {">"}
-                    </Button>
+                    {globalCart.length > 0 &&
+                        <Button variant="success" onClick={handleOrder}>
+                            {">"}
+                        </Button>
+                    }
                 </Modal.Footer>
             </Modal>
         </div>
