@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faLock, faUser, faEnvelope, faLocationArrow } from "@fortawesome/free-solid-svg-icons";
-import {adduser_url} from '../API/functionCalls';
+import { addUserAPI } from '../API/APICalls';
 
 library.add(faLock, faUser, faEnvelope, faLocationArrow);
 
@@ -23,13 +22,12 @@ export default function Register() {
 
     async function registerHandler() {
         const obj = { username: username, email: useremail, password: password, seller: seller, address: address };
-        const data = await (await axios.post(adduser_url, obj)).data;
+        const data = await addUserAPI(obj);
         if (data === "error") {
             document.getElementById("error").textContent = "Uh-Oh! Please Check your username and/or password and try again!";
         } else {
             navigate("/login");
         }
-
     }
 
     return (

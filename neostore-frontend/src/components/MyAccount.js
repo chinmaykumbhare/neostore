@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import NeostoreNavbar from './NeostoreNavbar'
 import { Row, Col, Form } from 'react-bootstrap';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { verify_url, users_url } from '../API/functionCalls';
+import { users_url } from '../API/functionCalls';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faPenSquare } from "@fortawesome/free-solid-svg-icons";
+import { verifyTokenDB } from '../API/APICalls';
 
 library.add(faPenSquare);
 
@@ -17,8 +17,7 @@ export default function MyAccount() {
 
     useEffect(() => {
         async function getUserData() {
-            const token = localStorage.getItem("token");
-            const data = await (await axios.post(verify_url, { token: token })).data;
+            const data = await verifyTokenDB();
             setUserData(data);
         }
         getUserData();

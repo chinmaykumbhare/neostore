@@ -1,9 +1,8 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router';
 import NeostoreNavbar from './NeostoreNavbar';
 import { Button, Table } from 'react-bootstrap';
-import {verify_url, orders_url} from '../API/functionCalls';
+import { getOrdersAPI, invoiceHandler, verifyTokenDB } from '../API/APICalls';
 
 export default function Orders(props) {
 
@@ -14,8 +13,7 @@ export default function Orders(props) {
 
     useEffect(() => {
         async function verifyToken() {
-            const token = localStorage.getItem("token");
-            const data = await (await axios.post(verify_url, { token: token })).data;
+            const data = await verifyTokenDB();
             setUserData(data);
         }
         verifyToken();
@@ -23,17 +21,11 @@ export default function Orders(props) {
 
     useEffect(() => {
         async function getOrders() {
-            const data = await (await axios.post(orders_url, { userid: userData._id })).data;
+            const data = await getOrdersAPI(userData._id);
             setOrders(data);
         }
         getOrders();
     }, [userData]);
-
-    async function invoiceHandler(orderDetails) {
-        const data = await (await axios.post("http://localhost:8090/pdf?order=" + JSON.stringify(orderDetails))).data;
-        window.open("http://localhost:8090/invoice.pdf");
-
-    }
 
     return (
         <div style={{minHeight: "100vh"}}>

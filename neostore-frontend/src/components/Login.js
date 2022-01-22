@@ -4,11 +4,10 @@ import { Form, Row, Col, Button } from 'react-bootstrap'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faLock, faUser } from "@fortawesome/free-solid-svg-icons";
-import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
-import { login_url } from '../API/functionCalls';
 import { GoogleLogin } from 'react-google-login';
+import { loginAPI, socialUserAPI } from '../API/APICalls';
 
 library.add(faLock, faUser);
 
@@ -20,7 +19,7 @@ export default function Login() {
     const navigate = useNavigate();
 
     async function loginHandler() {
-        const data = await (await axios.post(login_url, { username: username, password: password })).data;
+        const data = await loginAPI(username, password);
         if (!data) {
             document.getElementById("error").textContent = "Uh-Oh! Please Check your username and/or password and try again!";
         }
@@ -36,7 +35,7 @@ export default function Login() {
 
     async function postSocialData(profile) {
         const user = {username: profile.email, email: profile.email};
-        const data = await (await axios.post("http://localhost:8090/socialuser", user)).data;
+        const data = await socialUserAPI(user);
         localStorage.setItem("token", data);
         setTimeout(() => {
             navigate("/products");

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Col, Dropdown, Row } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
 import { useNavigate } from 'react-router';
 import NeostoreNavbar from './NeostoreNavbar';
 import Total from './Total';
 import { setCart } from '../features/products/cartSlice';
 import sweet from "sweetalert2";
-import { order_url, verify_url } from '../API/functionCalls';
+import { checkoutAPI, getAddressDB, verifyTokenDB } from '../API/APICalls';
 
 export default function Order(props) {
 
@@ -18,16 +17,14 @@ export default function Order(props) {
     const dispatch = useDispatch();
 
     async function getAddress(username) {
-        const data = await (await axios.post("http://localhost:8090/getaddress", { username: username })).data;
-        console.log(data);
+        const data = await getAddressDB(username);
         setAddress(data);
     }
 
     useEffect(() => {
 
         async function verifyToken() {
-            const _token = localStorage.getItem("token");
-            const data = await (await axios.post(verify_url, { token: _token })).data;
+            const data = await verifyTokenDB();
             setToken(data);
             getAddress(data.username);
         }
@@ -40,7 +37,7 @@ export default function Order(props) {
 
     async function checkoutHandler() {
         const updateCart = [];
-        const status = await (await axios.post(order_url, { userid: token._id, order: globalCart })).data;
+        const status = checkoutAPI(token._id, globalCart);
         dispatch(setCart(updateCart));
         localStorage.removeItem("cart");
         sweet.fire({
